@@ -48,38 +48,25 @@
 //   ]
 // }
 
-
+// {
+//   "compilerOptions": {
+//     "rootDir": "src", 
+//     "outDir": "dist",
+//     "module": "nodenext",
+//     "target": "es6",
+//     "esModuleInterop": true,
+//     "strict": true,
+//     "skipLibCheck": true
+//   },
+//   "include": ["src"]
+// }
 {
   "compilerOptions": {
-    // File Layout
-    "rootDir": ".",             // project root
-    "outDir": "./dist",
-
-    // Module & Target
+    "rootDir": "src",
+    "outDir": "dist",
     "module": "nodenext",
-    "target": "esnext",
-
-    // Type definitions
-    "types": ["node", "jest"],
-
-    // Outputs
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
-
-    // Type Safety
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-
-    // Recommended
-    "strict": true,
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "skipLibCheck": true
+    "target": "es6",
+    "esModuleInterop": true
   },
-  "include": [
-    "src",
-    "tests",
-    "jest.config.ts"
-  ]
+  "include": ["src"]
 }
