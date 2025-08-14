@@ -1,4 +1,3 @@
-// backend/src/app.ts
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -12,15 +11,33 @@ import { errorHandler } from "./middleware/errorHandler.js";
 export const createApp = () => {
   const app = express();
 
+  const allowedOrigins = [
+    "http://localhost:5173", // local dev
+    ENV.CORS_ORIGIN || ""    // from .env for production
+  ].filter(Boolean); // remove empty strings
+
   app.use(helmet());
-  app.use(cors({ origin: ENV.CORS_ORIGIN }));
   app.use(express.json({ limit: "256kb" }));
   app.use(morgan(ENV.NODE_ENV === "production" ? "combined" : "dev"));
 
-  // Mount API
+  // ✅ CORS setup (support multiple origins)
+  app.use(cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "OPTIONS"],
+    credentials: false
+  }));
+
+  // ✅ Mount routes
   app.use("/api", submissionsRoutes);
   app.use("/api", schemaRoutes);
 
+  // ✅ Error handling
   app.use(notFound);
   app.use(errorHandler);
 
